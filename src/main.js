@@ -1,10 +1,12 @@
 class TilCarousel {
-  constructor(selector) {
+  constructor(selector, threshold = 50) {
     try {
       this.container = document.getElementById(selector);
     } catch (e) {
       console.log(selector + " Not Found Element");
     }
+
+    this.threshold = threshold;
 
     this.wrapper = this.container.children[0];
     this.items = [].slice.call(this.wrapper.children);
@@ -30,8 +32,7 @@ class TilCarousel {
 
     this.container.style.overflow = "hidden";
 
-    // Create frame and apply styling
-    this.wrapper.style.width = this.count * this.container.width + "px";
+    this.buildFrame();
 
     // Browser Support
     this.transformProperty =
@@ -40,6 +41,12 @@ class TilCarousel {
         : "WebkitTransform";
 
     this.container.style.visibility = "visible";
+  }
+
+  buildFrame() {
+    // Create frame and apply styling
+    this.wrapper.style.width = this.count * this.container.width + "px";
+    this.slide();
   }
 
   attachEvents() {
@@ -63,6 +70,8 @@ class TilCarousel {
    */
   resizeHandler() {
     this.container.width = this.container.offsetWidth;
+    this.animate(0);
+    this.buildFrame();
   }
 
   touchstartHandler(e) {
@@ -82,10 +91,12 @@ class TilCarousel {
 
     var movement = this.drag.endX - this.drag.startX;
 
-    if (movement > 100) {
+    if (movement > this.threshold) {
       this.prev();
-    } else if (movement < -100) {
+    } else if (movement < -this.threshold) {
       this.next();
+    } else {
+      this.slide();
     }
   }
 

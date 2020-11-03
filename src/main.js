@@ -156,5 +156,7 @@ class TilCarousel {
   animate(duration = 0) {
     this.wrapper.style.transition =
       "transform" + (" " + duration + "ms ") + "ease-out";
+    this.wrapper.style.webkitTransition =
+      "transform" + (" " + duration + "ms ") + "ease-out";
   }
 }

@@ -1,12 +1,10 @@
 class TilCarousel {
-  constructor(selector, threshold = 50) {
+  constructor(selector) {
     try {
       this.container = document.getElementById(selector);
     } catch (e) {
       console.log(selector + " Not Found Element");
     }
-
-    this.threshold = threshold;
 
     this.wrapper = this.container.children[0];
     this.items = [].slice.call(this.wrapper.children);
@@ -17,6 +15,9 @@ class TilCarousel {
 
     // current position
     this.current = 0;
+
+    // threshold
+    this.threshold = this.container.width / 5;
 
     // Bind all event handler
     this.resizeHandler = this.resizeHandler.bind(this);
@@ -70,6 +71,8 @@ class TilCarousel {
    */
   resizeHandler() {
     this.container.width = this.container.offsetWidth;
+    this.threshold = this.container.width / 5;
+
     this.animate(0);
     this.buildFrame();
   }
@@ -123,9 +126,12 @@ class TilCarousel {
     this.transform(offset);
     this.animate(200);
   }
+
   goTo(index) {
-    this.current = index;
-    this.slide();
+    if (index > -1 && index < this.count) {
+      this.current = index;
+      this.slide();
+    }
   }
 
   prev() {

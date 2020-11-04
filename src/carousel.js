@@ -2,30 +2,35 @@ class TilCarousel {
   constructor(selector) {
     try {
       this.container = document.getElementById(selector);
+      this.wrapper = this.container.children[0];
+      this.items = [].slice.call(this.wrapper.children);
+
+      // count of wrapper in items
+      this.count = this.items.length;
+
+      // create initial container object
+      this.container.width = this.container.offsetWidth;
+
+      // current position
+      this.current = 0;
+
+      // threshold
+      this.threshold = this.container.width / 5;
+
+      // Bind all event handler
+      this.resizeHandler = this.resizeHandler.bind(this);
+      this.touchstartHandler = this.touchstartHandler.bind(this);
+      this.touchendHandler = this.touchendHandler.bind(this);
+      this.touchmoveHandler = this.touchmoveHandler.bind(this);
+
+      this.init();
     } catch (e) {
-      console.log(selector + " Not Found Element");
+      console.log(
+        "There is a problem with the structure or the " +
+          selector +
+          " could not be found"
+      );
     }
-
-    this.wrapper = this.container.children[0];
-    this.items = [].slice.call(this.wrapper.children);
-    this.count = this.items.length;
-
-    // create initial container object
-    this.container.width = this.container.offsetWidth;
-
-    // current position
-    this.current = 0;
-
-    // threshold
-    this.threshold = this.container.width / 5;
-
-    // Bind all event handler
-    this.resizeHandler = this.resizeHandler.bind(this);
-    this.touchstartHandler = this.touchstartHandler.bind(this);
-    this.touchendHandler = this.touchendHandler.bind(this);
-    this.touchmoveHandler = this.touchmoveHandler.bind(this);
-
-    this.init();
   }
 
   init() {

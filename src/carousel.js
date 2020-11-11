@@ -52,7 +52,7 @@ class TilCarousel {
   buildFrame() {
     // Create frame and apply styling
     this.wrapper.style.width = this.count * this.container.width + "px";
-    this.slide();
+    this.slide(false);
   }
 
   attachEvents() {
@@ -78,7 +78,6 @@ class TilCarousel {
     this.container.width = this.container.offsetWidth;
     this.threshold = this.container.width / 5;
 
-    this.animate(0);
     this.buildFrame();
   }
 
@@ -131,11 +130,11 @@ class TilCarousel {
    * public methods
    *
    */
-  slide() {
+  slide(animate = true) {
     var offset = this.container.width * this.current * -1;
 
     this.transform(offset);
-    this.animate(200);
+    this.animate(animate ? 200 : 0);
   }
 
   goTo(index) {

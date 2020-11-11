@@ -97,7 +97,7 @@ class TilCarousel {
 
     this.touching = false;
 
-    var movement = this.drag.endX - this.drag.startX;
+    var movement = this.drag.endX ? this.drag.endX - this.drag.startX : 0;
 
     if (movement > this.threshold) {
       this.prev();
@@ -106,6 +106,12 @@ class TilCarousel {
     } else {
       this.slide();
     }
+
+    // clear drag values
+    this.drag = {
+      startX: 0,
+      endX: 0,
+    };
   }
 
   touchmoveHandler(e) {

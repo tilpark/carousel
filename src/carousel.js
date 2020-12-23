@@ -65,9 +65,9 @@ class TilCarousel {
 
     window.addEventListener("resize", this.resizeHandler);
 
-    this.container.addEventListener("touchstart", this.touchstartHandler);
-    this.container.addEventListener("touchend", this.touchendHandler);
-    this.container.addEventListener("touchmove", this.touchmoveHandler);
+    this.wrapper.addEventListener("touchstart", this.touchstartHandler);
+    this.wrapper.addEventListener("touchend", this.touchendHandler);
+    this.wrapper.addEventListener("touchmove", this.touchmoveHandler);
   }
 
   /**
@@ -131,6 +131,12 @@ class TilCarousel {
    *
    */
   slide(animate = true) {
+    if (animate) {
+      if (typeof this.onChange === "function") {
+        this.onChange(this.current);
+      }
+    }
+
     var offset = this.container.width * this.current * -1;
 
     this.transform(offset);
